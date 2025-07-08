@@ -124,8 +124,8 @@
             <p>Welcome to this tutorial on visualizing Drug-Drug Interaction (DDI) study Pharmacokinetic (PK) data using ladder plots in R with the <code>ggplot2</code> package.</p>
 
             <h3>What is a Ladder Plot?</h3>
-            <p>A <strong>ladder plot</strong>, also known as a <strong>paired plot</strong> or <strong>before-after plot</strong>, is a powerful visualization technique used to display changes in a continuous variable within the same subjects across two distinct time points. In the context of a DDI study, this is particularly useful for comparing baseline PK parameters (e.g., on Day 1) to values after the interacting drug has been administered (e.g., on Day 17).</p>
-            <p>Each "rung" of the ladder represents an individual subject, connecting their Day 1 value to their Day 17 value. This allows for a clear visual assessment of individual-level changes, highlighting increases, decreases, or no change for each participant.</p>
+            <p>A <strong>ladder plot</strong>, also known as a <strong>paired plot</strong> or <strong>before-after plot</strong>, is a powerful visualization technique used to display changes in a continuous variable within the same subjects across two distinct time points. In the context of a DDI study, this is particularly useful for comparing baseline PK parameters (e.g., on Day 1) to values after the interacting drug has been administered (e.g., on Day 2).</p>
+            <p>Each "rung" of the ladder represents an individual subject, connecting their Day 1 value to their Day 2 value. This allows for a clear visual assessment of individual-level changes, highlighting increases, decreases, or no change for each participant.</p>
 
             <h3>Why Use Them for DDI Studies?</h3>
             <ul>
@@ -171,7 +171,7 @@
                 <tbody>
                     <tr>
                         <td><code>SubjectID</code></td>
-                        <td>Unique identifier for each study participant. This is crucial for connecting Day 1 and Day 17 data points for each individual.</td>
+                        <td>Unique identifier for each study participant. This is crucial for connecting Day 1 and Day 2 data points for each individual.</td>
                         <td><code>101</code>, <code>102</code>, <code>201</code>, <code>A001</code></td>
                     </tr>
                     <tr>
@@ -186,8 +186,8 @@
                     </tr>
                     <tr>
                         <td><code>Day</code></td>
-                        <td>The study day on which the measurement was taken. For this DDI study, we are interested in Day 1 and Day 17.</td>
-                        <td><code>1</code>, <code>17</code></td>
+                        <td>The study day on which the measurement was taken. For this DDI study, we are interested in Day 1 and Day 2.</td>
+                        <td><code>1</code>, <code>2</code></td>
                     </tr>
                     <tr>
                         <td><code>Value</code></td>
@@ -220,7 +220,7 @@
                         <td>101</td>
                         <td>Drug X</td>
                         <td>Cmax</td>
-                        <td>17</td>
+                        <td>2</td>
                         <td>12.5</td>
                     </tr>
                     <tr>
@@ -234,7 +234,7 @@
                         <td>101</td>
                         <td>Drug X</td>
                         <td>AUC</td>
-                        <td>17</td>
+                        <td>2</td>
                         <td>180.3</td>
                     </tr>
                     <tr>
@@ -248,7 +248,7 @@
                         <td>102</td>
                         <td>Drug X</td>
                         <td>Cmax</td>
-                        <td>17</td>
+                        <td>2</td>
                         <td>11.0</td>
                     </tr>
                 </tbody>
@@ -339,9 +339,9 @@ plot_data &lt;- ADPP %&gt;%
   # If your 'PK_Parameter' column has different names for Cmax/AUC, adjust here.
   filter(PK_Parameter %in% c("Cmax", "AUC")) %&gt;%
   # Convert the 'Day' column to a factor. This is crucial for:
-  # 1. Treating Day 1 and Day 17 as distinct categories on the x-axis, not continuous numbers.
-  # 2. Ensuring the x-axis order is explicitly "1" then "17".
-  mutate(Day = factor(Day, levels = c("1", "17"))) %&gt;%
+  # 1. Treating Day 1 and Day 2 as distinct categories on the x-axis, not continuous numbers.
+  # 2. Ensuring the x-axis order is explicitly "1" then "2".
+  mutate(Day = factor(Day, levels = c("1", "2"))) %&gt;%
   # Convert 'SubjectID' to a factor. This is essential for:
   # 1. Telling ggplot2 to group lines by individual subjects.
   # 2. Preventing ggplot2 from trying to treat SubjectID as a continuous variable.
@@ -359,11 +359,11 @@ str(plot_data)
             <p><strong>Explanation:</strong></p>
             <ul>
                 <li><code>filter(PK_Parameter %in% c("Cmax", "AUC"))</code>: This line uses <code>dplyr</code>'s <code>filter()</code> function to keep only the rows where the <code>PK_Parameter</code> column contains either "Cmax" or "AUC". If your dataset includes other parameters you don't want to plot, this step cleans them out.</li>
-                <li><code>mutate(Day = factor(Day, levels = c("1", "17")))</code>:
+                <li><code>mutate(Day = factor(Day, levels = c("1", "2")))</code>:
                     <ul>
                         <li><code>mutate()</code>: This <code>dplyr</code> function allows you to create new columns or modify existing ones.</li>
                         <li><code>factor()</code>: This R function converts a variable into a categorical factor.</li>
-                        <li><code>levels = c("1", "17")</code>: This argument explicitly sets the order of the categories for the <code>Day</code> factor. This ensures that Day 1 always appears before Day 17 on your x-axis, even if the data isn't naturally sorted that way.</li>
+                        <li><code>levels = c("1", "2")</code>: This argument explicitly sets the order of the categories for the <code>Day</code> factor. This ensures that Day 1 always appears before Day 2 on your x-axis, even if the data isn't naturally sorted that way.</li>
                     </ul>
                 </li>
                 <li><code>mutate(SubjectID = factor(SubjectID))</code>: Similarly, converting <code>SubjectID</code> to a factor tells <code>ggplot2</code> that each unique ID represents a distinct group for plotting, which is essential for drawing individual "ladder rungs."</li>
@@ -409,24 +409,24 @@ for (analyte_name in unique_analytes) {
 
     # --- Robust Check for Plotting ---
     # This 'if' condition ensures that we only attempt to plot if there's sufficient data.
-    # We need at least one subject with both Day 1 and Day 17 data points to draw a ladder.
+    # We need at least one subject with both Day 1 and Day 2 data points to draw a ladder.
     if (nrow(current_plot_data) &gt; 0 &amp;&amp;
-        length(unique(current_plot_data$Day)) == 2 &amp;&amp; # Checks if both Day 1 and Day 17 are present
-        all(c("1", "17") %in% unique(current_plot_data$Day)) &amp;&amp; # Ensures specific day levels are there
+        length(unique(current_plot_data$Day)) == 2 &amp;&amp; # Checks if both Day 1 and Day 2 are present
+        all(c("1", "2") %in% unique(current_plot_data$Day)) &amp;&amp; # Ensures specific day levels are there
         n_distinct(current_plot_data$SubjectID) &gt; 0) { # Ensures there's at least one subject
 
       # Create the ggplot object for the current analyte and PK parameter.
       p &lt;- ggplot(current_plot_data, aes(x = Day, y = Value, group = SubjectID)) +
         # geom_line: Draws the "ladder rungs".
         # 'group = SubjectID' is crucial here; it tells ggplot to draw a separate line
-        # for each unique subject, connecting their Day 1 and Day 17 values.
+        # for each unique subject, connecting their Day 1 and Day 2 values.
         geom_line(color = "grey", alpha = 0.6) + # 'alpha' makes lines slightly transparent.
-        # geom_point: Adds the data points for Day 1 and Day 17.
+        # geom_point: Adds the data points for Day 1 and Day 2.
         # 'aes(color = Day)' colors the points differently based on the day.
         geom_point(aes(color = Day), size = 3) +
-        # scale_color_manual: Assigns specific colors to Day 1 and Day 17 points.
+        # scale_color_manual: Assigns specific colors to Day 1 and Day 2 points.
         # 'name = "Study Day"' sets the title for the color legend.
-        scale_color_manual(values = c("1" = "blue", "17" = "red"),
+        scale_color_manual(values = c("1" = "blue", "2" = "red"),
                            name = "Study Day") +
         # labs: Sets the plot title and axis labels dynamically.
         labs(
@@ -456,7 +456,7 @@ for (analyte_name in unique_analytes) {
     } else {
       # If there's not enough data to create a meaningful plot for a combination,
       # print a warning message to the console.
-      warning(paste("Not enough complete subject data (missing Day 1 or Day 17 for subjects) to plot for:", analyte_name, "-", pk_param_name))
+      warning(paste("Not enough complete subject data (missing Day 1 or Day 2 for subjects) to plot for:", analyte_name, "-", pk_param_name))
     }
   }
 }
@@ -470,14 +470,14 @@ for (analyte_name in unique_analytes) {
                             <ul>
                                 <li><code>x = Day</code>: Places the <code>Day</code> variable on the x-axis.</li>
                                 <li><code>y = Value</code>: Places the <code>Value</code> (PK parameter) on the y-axis.</li>
-                                <li><code>group = SubjectID</code>: <strong>This is fundamental for ladder plots.</strong> It tells <code>ggplot2</code> to treat each unique <code>SubjectID</code> as a separate group and draw a distinct line connecting the Day 1 and Day 17 points <em>for that specific subject</em>. Without this, <code>ggplot2</code> would try to draw one continuous line through all points or treat them as independent.</li>
+                                <li><code>group = SubjectID</code>: <strong>This is fundamental for ladder plots.</strong> It tells <code>ggplot2</code> to treat each unique <code>SubjectID</code> as a separate group and draw a distinct line connecting the Day 1 and Day 2 points <em>for that specific subject</em>. Without this, <code>ggplot2</code> would try to draw one continuous line through all points or treat them as independent.</li>
                             </ul>
                         </li>
                     </ul>
                 </li>
                 <li><strong><code>geom_line()</code></strong>: This geometric object draws lines. When combined with <code>group = SubjectID</code>, it creates the "ladder rungs."</li>
-                <li><strong><code>geom_point()</code></strong>: This geometric object adds points to the plot, representing the individual Day 1 and Day 17 measurements. <code>aes(color = Day)</code> dynamically colors these points based on the <code>Day</code> variable, making it easy to distinguish the time points.</li>
-                <li><strong><code>scale_color_manual()</code></strong>: Allows you to explicitly define the colors for the <code>Day</code> factor levels (e.g., blue for Day 1, red for Day 17).</li>
+                <li><strong><code>geom_point()</code></strong>: This geometric object adds points to the plot, representing the individual Day 1 and Day 2 measurements. <code>aes(color = Day)</code> dynamically colors these points based on the <code>Day</code> variable, making it easy to distinguish the time points.</li>
+                <li><strong><code>scale_color_manual()</code></strong>: Allows you to explicitly define the colors for the <code>Day</code> factor levels (e.g., blue for Day 1, red for Day 2).</li>
                 <li><strong><code>labs()</code></strong>: Used to customize the plot's title, x-axis label, and y-axis label. The <code>paste()</code> function helps create dynamic titles based on the current analyte and PK parameter. <strong>Remember to replace <code>(Units)</code> with the actual units for your PK parameters.</strong></li>
                 <li><strong><code>theme_minimal()</code></strong>: A pre-defined <code>ggplot2</code> theme that provides a clean, minimalist background.</li>
                 <li><strong><code>theme()</code></strong>: Provides fine-grained control over various plot elements, such as title position (<code>hjust</code>), font styles (<code>face</code>), and legend position.</li>
@@ -489,7 +489,7 @@ for (analyte_name in unique_analytes) {
                 <ol>
                     <li>Copy and paste the entire code block for generating the ladder plots into your R script or console.</li>
                     <li><strong>Before running, review the <code>y = paste(pk_param_name, "(Units)")</code> line and update <code>(Units)</code> to the actual units for your Cmax and AUC values (e.g., "ng/mL", "ng*hr/mL").</strong></li>
-                    <li>Run the code. Observe each plot as it appears in your RStudio Plots pane. Pay attention to how individual subjects' values change from Day 1 to Day 17.</li>
+                    <li>Run the code. Observe each plot as it appears in your RStudio Plots pane. Pay attention to how individual subjects' values change from Day 1 to Day 2.</li>
                 </ol>
             </div>
         </section>
@@ -582,8 +582,8 @@ if (length(ladder_plots) &gt; 0) {
             <ol>
                 <li><strong>Direction of the Lines (Slopes):</strong>
                     <ul>
-                        <li><strong>Upward Slope (Day 1 to Day 17):</strong> Indicates an <strong>increase</strong> in the PK parameter (Cmax or AUC) for that individual subject after the interacting drug was introduced. This might suggest a DDI leading to increased exposure.</li>
-                        <li><strong>Downward Slope (Day 1 to Day 17):</strong> Indicates a <strong>decrease</strong> in the PK parameter for that individual. This could suggest a DDI leading to decreased exposure.</li>
+                        <li><strong>Upward Slope (Day 1 to Day 2):</strong> Indicates an <strong>increase</strong> in the PK parameter (Cmax or AUC) for that individual subject after the interacting drug was introduced. This might suggest a DDI leading to increased exposure.</li>
+                        <li><strong>Downward Slope (Day 1 to Day 2):</strong> Indicates a <strong>decrease</strong> in the PK parameter for that individual. This could suggest a DDI leading to decreased exposure.</li>
                         <li><strong>Flat/Horizontal Line:</strong> Suggests little to no change in the PK parameter for that subject.</li>
                     </ul>
                 </li>
@@ -596,7 +596,7 @@ if (length(ladder_plots) &gt; 0) {
                 <li><strong>Magnitude of Change:</strong>
                     <ul>
                         <li><strong>Steepness of the lines:</strong> A steeper slope (either upward or downward) indicates a larger change in the PK parameter.</li>
-                        <li><strong>Spread of the points:</strong> Observe the range of values on Day 1 and Day 17. Are the values tightly clustered or widely spread?</li>
+                        <li><strong>Spread of the points:</strong> Observe the range of values on Day 1 and Day 2. Are the values tightly clustered or widely spread?</li>
                     </ul>
                 </li>
                 <li><strong>Identifying Outliers:</strong>
