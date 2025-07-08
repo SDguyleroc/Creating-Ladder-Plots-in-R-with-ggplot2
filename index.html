@@ -82,7 +82,7 @@
         /* Override Prism.js default background for pre to match desired dark theme */
         pre[class*="language-"] {
             background-color: #1a202c; /* Dark background for code blocks */
-            color: #f8f8f2; /* Default light text for code */
+            color: #f8f8f2; /* Light text for general code */
             padding: 1rem;
             border-radius: 0.5rem;
             overflow-x: auto; /* Enable horizontal scrolling for long lines */
@@ -116,65 +116,8 @@
             margin-bottom: 1.5rem;
             border-radius: 0.5rem;
         }
-
-        /* Custom Prism.js syntax highlighting colors */
-        .token.comment,
-        .token.block-comment,
-        .token.prolog,
-        .token.doctype,
-        .token.cdata {
-            color: #e74c3c; /* Red for comments */
-        }
-        .token.punctuation {
-            color: #f8f8f2; /* White/off-white for punctuation */
-        }
-        .token.property,
-        .token.tag,
-        .token.boolean,
-        .token.number,
-        .token.constant,
-        .token.symbol,
-        .token.deleted {
-            color: #a7d9ff; /* Light blue for numbers, booleans, etc. */
-        }
-        .token.selector,
-        .token.attr-name,
-        .token.string,
-        .token.char,
-        .token.builtin,
-        .token.inserted {
-            color: #b8e994; /* Light green for strings, built-ins */
-        }
-        .token.operator,
-        .token.entity,
-        .token.url,
-        .language-css .token.string,
-        .style .token.string {
-            color: #f8f8f2; /* White/off-white for operators */
-        }
-        .token.atrule,
-        .token.keyword,
-        .token.selector.attr,
-        .token.selector.class,
-        .token.selector.pseudo,
-        .token.function {
-            color: #ffb86c; /* Orange for keywords, functions */
-        }
-        .token.regex,
-        .token.important,
-        .token.variable {
-            color: #ff79c6; /* Pink for regex, variables */
-        }
-        .token.important,
-        .token.bold {
-            font-weight: bold;
-        }
-        .token.italic {
-            font-style: italic;
-        }
-        .token.entity {
-            cursor: help;
-        }
+        /* Removed custom Prism.js syntax highlighting colors to revert to default theme */
+        /* The default prism.min.css will now control the token colors */
     </style>
 </head>
 <body>
@@ -432,7 +375,7 @@ str(plot_data)
                 <li><code>head(plot_data)</code> and <code>str(plot_data)</code>: These are crucial debugging steps.
                     <ul>
                         <li><code>head()</code> shows you the top rows of your <code>plot_data</code>, allowing you to visually confirm the filtering and the presence of the correct columns.</li>
-                        <li><code>str()</code> (structure) provides a summary of the data frame, including the data type of each column. You should see <code>Factor</code> listed for both <code>Day</code> and <code>SubjectID</code>.</li>
+                        <li><code>str()</code> (structure) provides a summary of the data frame, including the data type of each column. You should see `Factor` listed for both `Day` and `SubjectID`.</li>
                     </ul>
                 </li>
             </ul>
@@ -522,7 +465,7 @@ for (analyte_name in unique_analytes) {
     }
   }
 }
-</code></pre>
+```</pre>
             <p><strong>Explanation of Key <code>ggplot2</code> Components:</strong></p>
             <ul>
                 <li><strong><code>ggplot(data, aes(x, y, group))</code></strong>:
@@ -576,7 +519,7 @@ if (length(ladder_plots) &gt; 0) {
 } else {
   message("No plots were generated in the previous step. Please review your data and code.")
 }
-</code></pre>
+```</pre>
             <p><strong>Explanation:</strong></p>
             <ul>
                 <li><code>grid.arrange()</code>: This function from <code>gridExtra</code> takes a list of <code>ggplot</code> objects and arranges them into a single plot grid.</li>
@@ -614,7 +557,7 @@ if (length(ladder_plots) &gt; 0) {
 } else {
   message("No plots were available to save.")
 }
-</code></pre>
+```</pre>
             <p><strong>Explanation of <code>ggsave()</code> arguments:</strong></p>
             <ul>
                 <li><strong><code>filename</code></strong>: The name of the file to save. We use <code>paste0()</code> to create unique names for each plot (e.g., <code>Drug_X_Cmax.png</code>). The file extension (<code>.png</code> in this case) determines the output format. You can change it to <code>.pdf</code>, <code>.jpeg</code>, etc.</li>
@@ -693,7 +636,7 @@ if (length(ladder_plots) &gt; 0) {
         </section>
     </div>
     <!-- Prism.js JavaScript for syntax highlighting -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-r.min.js"></script>
+    <script src="[https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js](https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js)"></script>
+    <script src="[https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-r.min.js](https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-r.min.js)"></script>
 </body>
 </html>
