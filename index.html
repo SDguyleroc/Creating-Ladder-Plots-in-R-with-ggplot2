@@ -7,6 +7,8 @@
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Prism.js CSS for syntax highlighting (default theme) -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet" />
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -77,7 +79,8 @@
             font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
             font-size: 0.9em;
         }
-        pre {
+        /* Override Prism.js default background for pre to match desired dark theme */
+        pre[class*="language-"] {
             background-color: #1a202c; /* Dark background for code blocks */
             color: #f8f8f2; /* Light text for code */
             padding: 1rem;
@@ -88,7 +91,7 @@
             font-size: 0.9em;
             line-height: 1.4;
         }
-        pre code {
+        pre code { /* Ensure inline code within pre doesn't have extra background */
             background-color: transparent;
             padding: 0;
             border-radius: 0;
@@ -266,7 +269,7 @@
 
             <h3>1.1 Install and Load Required Libraries</h3>
             <p>We will use <code>ggplot2</code> for plotting and <code>dplyr</code> for data manipulation. If your data is in an Excel file, you'll also need <code>readxl</code>.</p>
-            <pre><code># Install necessary packages if you haven't already.
+            <pre><code class="language-r"># Install necessary packages if you haven't already.
 # Uncomment the lines below and run them if you need to install.
 # install.packages("ggplot2")
 # install.packages("dplyr")
@@ -285,7 +288,7 @@ library(dplyr)
 
             <h3>1.2 Load Your ADPP Data</h3>
             <p>Now, load your ADPP dataset into an R data frame or tibble. <strong>This is the most critical part of this step.</strong> You will need to choose the option that matches how your data is currently stored or accessed.</p>
-            <pre><code># --- IMPORTANT: Choose ONE of the options below to load your ADPP data ---
+            <pre><code class="language-r"># --- IMPORTANT: Choose ONE of the options below to load your ADPP data ---
 
 # Option 1: If your ADPP data is ALREADY loaded into an R variable (e.g., named 'ADPP').
 #           In this case, you don't need to run any 'read' function.
@@ -330,7 +333,7 @@ colnames(ADPP)
         <section>
             <h2>Step 2 - Preparing the Data for Plotting</h2>
             <p>Once your ADPP data is loaded, the next step is to prepare it in a format that <code>ggplot2</code> can easily use for creating our ladder plots. This involves filtering for the specific PK parameters (Cmax and AUC) and ensuring our <code>Day</code> and <code>SubjectID</code> variables are correctly treated as categorical factors.</p>
-            <pre><code># --- Prepare the data for plotting ---
+            <pre><code class="language-r"># --- Prepare the data for plotting ---
 # Adjust column names in the 'filter' and 'mutate' calls below
 # if they are different in your original ADPP dataset.
 
@@ -387,7 +390,7 @@ str(plot_data)
         <section>
             <h2>Step 3 - Generating the Ladder Plots</h2>
             <p>This is the core step where we use <code>ggplot2</code> to create the ladder plots. We will loop through each unique analyte and PK parameter combination to generate a separate plot for each.</p>
-            <pre><code># --- Generate the ladder plots ---
+            <pre><code class="language-r"># --- Generate the ladder plots ---
 
 # Get unique analytes and PK parameters from your prepared data.
 # These will be used to create individual plots for each combination.
@@ -500,7 +503,7 @@ for (analyte_name in unique_analytes) {
 
             <h3>4.1 Displaying Multiple Plots (Optional)</h3>
             <p>If you have many plots, viewing them one by one can be cumbersome. The <code>gridExtra</code> package allows you to arrange multiple <code>ggplot2</code> objects in a grid.</p>
-            <pre><code># Install 'gridExtra' if you haven't already.
+            <pre><code class="language-r"># Install 'gridExtra' if you haven't already.
 # Uncomment the line below and run it if you need to install.
 # install.packages("gridExtra")
 library(gridExtra)
@@ -523,7 +526,7 @@ if (length(ladder_plots) &gt; 0) {
 
             <h3>4.2 Saving Individual Plots</h3>
             <p>The <code>ggsave()</code> function is the easiest way to save your <code>ggplot2</code> plots to various file formats (PNG, PDF, JPEG, TIFF, etc.) with high quality.</p>
-            <pre><code># --- IMPORTANT: Specify your desired save directory ---
+            <pre><code class="language-r"># --- IMPORTANT: Specify your desired save directory ---
 # Replace the example path below with the actual folder where you want to save your plots.
 # Use forward slashes (/) for directory separators, even on Windows.
 # Example for Windows: "C:/Users/YourUsername/Documents/R_DDI_Plots/"
@@ -630,5 +633,8 @@ if (length(ladder_plots) &gt; 0) {
             </div>
         </section>
     </div>
+    <!-- Prism.js JavaScript for syntax highlighting -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-r.min.js"></script>
 </body>
 </html>
