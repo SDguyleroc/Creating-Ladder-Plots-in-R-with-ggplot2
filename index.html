@@ -82,7 +82,7 @@
         /* Override Prism.js default background for pre to match desired dark theme */
         pre[class*="language-"] {
             background-color: #1a202c; /* Dark background for code blocks */
-            color: #f8f8f2; /* Light text for code */
+            color: #f8f8f2; /* Default light text for code */
             padding: 1rem;
             border-radius: 0.5rem;
             overflow-x: auto; /* Enable horizontal scrolling for long lines */
@@ -115,6 +115,65 @@
             margin-top: 1.5rem;
             margin-bottom: 1.5rem;
             border-radius: 0.5rem;
+        }
+
+        /* Custom Prism.js syntax highlighting colors */
+        .token.comment,
+        .token.block-comment,
+        .token.prolog,
+        .token.doctype,
+        .token.cdata {
+            color: #e74c3c; /* Red for comments */
+        }
+        .token.punctuation {
+            color: #f8f8f2; /* White/off-white for punctuation */
+        }
+        .token.property,
+        .token.tag,
+        .token.boolean,
+        .token.number,
+        .token.constant,
+        .token.symbol,
+        .token.deleted {
+            color: #a7d9ff; /* Light blue for numbers, booleans, etc. */
+        }
+        .token.selector,
+        .token.attr-name,
+        .token.string,
+        .token.char,
+        .token.builtin,
+        .token.inserted {
+            color: #b8e994; /* Light green for strings, built-ins */
+        }
+        .token.operator,
+        .token.entity,
+        .token.url,
+        .language-css .token.string,
+        .style .token.string {
+            color: #f8f8f2; /* White/off-white for operators */
+        }
+        .token.atrule,
+        .token.keyword,
+        .token.selector.attr,
+        .token.selector.class,
+        .token.selector.pseudo,
+        .token.function {
+            color: #ffb86c; /* Orange for keywords, functions */
+        }
+        .token.regex,
+        .token.important,
+        .token.variable {
+            color: #ff79c6; /* Pink for regex, variables */
+        }
+        .token.important,
+        .token.bold {
+            font-weight: bold;
+        }
+        .token.italic {
+            font-style: italic;
+        }
+        .token.entity {
+            cursor: help;
         }
     </style>
 </head>
